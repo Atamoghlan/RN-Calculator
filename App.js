@@ -12,7 +12,7 @@ constructor(){
 }
 
 setNumber = (button) => {
-    console.log(cavid, atamoglan);
+    console.log(button);
 }
 
 render() {
@@ -28,14 +28,14 @@ for (let i=0; i<=3; i++){
     rows.push(<View style={styles.row}>{row}</View>)
 }*/
 
-const buttonsArray = [7,8,9,'+',4,5,6,'-',1,2,3,'x',0,'.','=','/'];
+const buttonsArray = ['C','+/-','%','/',7,8,9,'x',4,5,6,'-',1,2,3,'+',0,'.','='];
 return (
 <View style={styles.Container}>
     <View style={styles.Result}>
         <Text style={styles.resultText}>10/5</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5, flexWrap: 'wrap', width: '100%'}}>
-     {buttonsArray.map((item, index) => <TouchableOpacity onPress={() => this.setNumber(index, item)} style={{width: '23.5%' , height: '21.35%' , backgroundColor: index === 3 || index === 7 || index === 11 || index === 15? '#8B0000' : 'red' , justifyContent: 'center', alignItems: 'center', margin: 2, borderRadius: 20}}><Text style={{color: 'white', fontSize: 100}}>{item}</Text></TouchableOpacity>)}
+     {buttonsArray.map((item, index) => <TouchableOpacity onPress={() => this.setNumber(item)} style={{width: index === 16? '48%':'23.5%' , height: '18.2%' , backgroundColor: index === 3 || index === 0|| index === 1|| index === 2|| index === 7 || index === 11 || index === 15|| index === 18? '#FFA500' : '#808080' , justifyContent: 'center', alignItems: 'center', margin: 2, borderRadius: 50}}><Text style={{color: 'white', fontSize: 60}}>{item}</Text></TouchableOpacity>)}
     </View>
         {/* <View style={styles.Result}>
             <Text style={styles.resultText}>10/5</Text>
@@ -74,63 +74,18 @@ const styles = StyleSheet.create({
 
     Container: {
         flex: 1,
+        backgroundColor: 'black'
     },
     resultText:{
-        fontSize: 35,
+        margin: 10,
+        fontSize: 55,
         color : 'white',
-    },
-    btntext: {
-        fontSize: 90,
-        color: 'white'
-    },
-    white: {
-        color: 'white',
-    },
-    btn: {
-        flex:1,
-        alignItems: 'center',
-        alignSelf: 'stretch',
-        justifyContent: 'center',
-    },
-    calculationText: {
-        fontSize: 35,
-        color : 'white',
-        
-    },
-    Row: {
-        flexDirection: 'row',
-        flex: 1,
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        flexWrap: 'wrap',
     },
     Result: {
+        
         height: '30%',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'flex-end',
         backgroundColor: '#8B8B8B'
     },
-    Calculation: {
-        flex: 1.5,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        backgroundColor: '#A1A1A1'
-    },
-
-    Buttons: {
-        flexGrow: 7,
-        flexDirection: "row",
-        backgroundColor:'white'
-    },
-    Numbers: {
-        flex: 3,
-        backgroundColor: 'black'
-    },
-    Operations: {
-        flex: 1,
-        backgroundColor: '#363636',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-    }
-
     });
