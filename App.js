@@ -11,6 +11,10 @@ constructor(){
     this.state = {}
 }
 
+setNumber = (button) => {
+    console.log(cavid, atamoglan);
+}
+
 render() {
 /*let rows = []
 let nums = [[1,2,3],[4,5,6],[7,8,9],['.',0,'=']]
@@ -23,18 +27,17 @@ for (let i=0; i<=3; i++){
     }
     rows.push(<View style={styles.row}>{row}</View>)
 }*/
-let operations = ['+','-','*','/']
-let ops = []
-for(let i=0; i<4; i++) {
-    ops.push(<TouchableOpacity style= {styles.btn}>
-        <Text style={[styles.btntext, styles.white]}>{operations[i]}</Text>
-    </TouchableOpacity>)
-}
 
+const buttonsArray = [7,8,9,'+',4,5,6,'-',1,2,3,'x',0,'.','=','/'];
 return (
-
 <View style={styles.Container}>
-        <View style={styles.Result}>
+    <View style={styles.Result}>
+        <Text style={styles.resultText}>10/5</Text>
+    </View>
+    <View style={{flexDirection: 'row',margin: 5, flexWrap: 'wrap', width: '100%'}}>
+     {buttonsArray.map((item, index) => <TouchableOpacity onPress={() => this.setNumber(index, item)} style={{width: '23.5%' , height: '21.35%' , backgroundColor: index === 3 || index === 7 || index === 11 || index === 15? '#8B0000' : 'red' , justifyContent: 'center', alignItems: 'center', margin: 2, borderRadius: 20}}><Text style={{color: 'white', fontSize: 100}}>{item}</Text></TouchableOpacity>)}
+    </View>
+        {/* <View style={styles.Result}>
             <Text style={styles.resultText}>10/5</Text>
         </View>
         <View style={styles.Calculation}>
@@ -43,37 +46,7 @@ return (
         <View style={styles.Buttons}>
             <View style={styles.Numbers}>
                 <View style = {styles.Row}>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >0</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >1</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >2</Text>
-                </TouchableOpacity>
-                </View>
-                <View style = {styles.Row}>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >4</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >5</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >6</Text>
-                </TouchableOpacity>
-                </View>
-                <View style = {styles.Row}>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >7</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >8</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >9</Text>
-                </TouchableOpacity>
+
                 </View>
                 <View style = {styles.Row}>
                 <TouchableOpacity style={styles.btn}>
@@ -90,7 +63,7 @@ return (
             <View style={styles.Operations}>
                 {ops}      
             </View>
-        </View>
+        </View> */}
 </View>
 
 );
@@ -129,9 +102,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-around',
         alignItems: 'center',
+        flexWrap: 'wrap',
     },
     Result: {
-        flex: 1.5,
+        height: '30%',
         justifyContent: 'center',
         alignItems: 'flex-end',
         backgroundColor: '#8B8B8B'
