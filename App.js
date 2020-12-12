@@ -5,14 +5,66 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 export default class App extends Component {
+    firstNUm = 0.0;
+    secondNum = 0.0;
+    mathSign = false;
+    str = '';
+    operation = 0;
+    isNull = false;
+    dotExist = true;
+    plusExist = false;
+    minusExist = false;
+    divisionExist = false;
+    multiplyExist = false
+    numExist = false;
+    nulAndDot = false
+    equalWork = false
+    dividedByZero = false
+    text = ""
+
 
 constructor(){
     super()
-    this.state = {}
+    this.state = {
+        resultText: ""
+    }
+}
+
+buttons = (button) => {
+this.setState({
+        resultText: this.state.resultText+button
+    })
+}
+calculateResult = (button) =>{
+    this.setState({
+        resultText: eval(this.state.resultText)
+    })
 }
 
 setNumber = (button) => {
-    console.log(button);
+    
+    switch(button){
+        case '=':
+            this.calculateResult(button)
+        break;
+
+        case 'C':
+            this.text = ''
+            this.setState({
+                resultText: this.text
+            })
+            break;
+        default:
+            this.buttons(button)
+
+
+        }
+    /*this.setState({
+        resultText: this.state.resultText+button})*/
+
+  
+    
+    
 }
 
 render() {
@@ -28,42 +80,15 @@ for (let i=0; i<=3; i++){
     rows.push(<View style={styles.row}>{row}</View>)
 }*/
 
-const buttonsArray = ['C','+/-','%','/',7,8,9,'x',4,5,6,'-',1,2,3,'+',0,'.','='];
+const buttonsArray = ['C','+/-','%','/',7,8,9,'*',4,5,6,'-',1,2,3,'+',0,'.','='];
 return (
 <View style={styles.Container}>
     <View style={styles.Result}>
-        <Text style={styles.resultText}>10/5</Text>
+        <Text style={styles.resultText}>{this.state.resultText}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5, flexWrap: 'wrap', width: '100%'}}>
      {buttonsArray.map((item, index) => <TouchableOpacity onPress={() => this.setNumber(item)} style={{width: index === 16? '48%':'23.5%' , height: '18.2%' , backgroundColor: index === 3 || index === 0|| index === 1|| index === 2|| index === 7 || index === 11 || index === 15|| index === 18? '#FFA500' : '#808080' , justifyContent: 'center', alignItems: 'center', margin: 2, borderRadius: 50}}><Text style={{color: 'white', fontSize: 60}}>{item}</Text></TouchableOpacity>)}
     </View>
-        {/* <View style={styles.Result}>
-            <Text style={styles.resultText}>10/5</Text>
-        </View>
-        <View style={styles.Calculation}>
-            <Text style={styles.calculationText}>50</Text>
-        </View>
-        <View style={styles.Buttons}>
-            <View style={styles.Numbers}>
-                <View style = {styles.Row}>
-
-                </View>
-                <View style = {styles.Row}>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >.</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >0</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style = {styles.btntext} >=</Text>
-                </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.Operations}>
-                {ops}      
-            </View>
-        </View> */}
 </View>
 
 );
@@ -78,7 +103,7 @@ const styles = StyleSheet.create({
     },
     resultText:{
         margin: 10,
-        fontSize: 55,
+        fontSize: 75,
         color : 'white',
     },
     Result: {
@@ -86,6 +111,6 @@ const styles = StyleSheet.create({
         height: '30%',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        backgroundColor: '#8B8B8B'
+        backgroundColor: 'black'
     },
     });
