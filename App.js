@@ -145,10 +145,10 @@ OnClick = (button) => {
             this.calculateResult(button)
         break;
         case '<-':
-            this.text = this.state.resultText.split('')
+            let text = this.state.resultText.split('')
             text.pop()
             this.setState({
-                resultText: this.text.join('')
+                resultText: text.join('')
             })
             break;
 
