@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -30,10 +31,30 @@ constructor(){
     }
 }
 
+operations = (button) => {
+    let text = this.state.resultText
+    if(text[text.length-1] === '+' || text[text.length-1] === '-' || text[text.length-1] === '/' || text[text.length-1] === '*'){
+    text = this.state.resultText.split('')
+    text.pop();
+       this.setState({
+           resultText: text+button
+       })
+    }
+    else if (text === '' && button === '-'){
+        this.setState({
+            resultText: text+button
+        })
+    }
+    else if (text !== '')
+    {
+        this.setState({
+            resultText: text+button
+        })
+    }
+}
+
 buttons = (button) => {
     if(button !== '+' && button !== '-' && button !== '*' && button !== '/'){
-        if (this.mathSign === true) //Second number comes here
-        {
             if(button === '.' && this.dotExist === false && this.numExist === true
                 && this.zeroExist === false){
                     this.setState({
@@ -42,7 +63,7 @@ buttons = (button) => {
                     this.dotExist = true
                     this.numExist = true
                 }
-            else if (button --- '.' && this.dotExist === false && this.numExist === true && this.zeroExist === true){
+            else if (button === '.' && this.dotExist === false && this.numExist === true && this.zeroExist === true){
                     this.setState({
                         resultText: this.state.resultText+button
                     })
@@ -74,76 +95,30 @@ buttons = (button) => {
                 this.mathSign = false
             }
         }
-        else { //first number comes here
-            if (button === '.' && this.numExist === true && this.dotExist === false && this.zeroExist === false){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                this.dotExist = true;
-                this.numExist = false;
-
-            }
-            else if (button === '.' && this.numExist === true && this.dotExist === false && this.zeroExist === true){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                this.dotExist = true;
-                this.numExist = false;
-                this.numExist = false;
-                this.nulAndDot = true
-            }
-            else if (button === 0 && this.zeroExist === false){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                this.zeroExist = true;
-                this.numExist = true;
-                this.dotExist = false
-            }
-            else if ( this.zeroExist === true && this.nulAndDot === false && button !== '.'){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                this.numExist = true;
-                this.dotExist = false;
-            }
-            else if (button !== '.' && button !== 0){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                this.numExist = true;
-                this.dotExist = false;
-            }
-        }
-   }
-   else{
-       if (this.state.resultText !== '' && !this.plusExist && !this.minusExist && !this.multiplyExist && !this.divisionExist && !this.dividedByZero && this.numExist === true ){
-           this.zeroExist = false;
-           if (button === '+' && this.numExist === true){
-            this.setState({
-                resultText: this.state.resultText+button
-            })
-            this.plusExist = true;
-            this.numExist = false;
-           }
-           
-       }
-   }
+   
 
 
 }
 calculateResult = (button) =>{
-    this.setState({
-        resultText: eval(this.state.resultText)
+    if(this.state.resultText !== ''){
+        this.setState({
+            resultText: eval(this.state.resultText)
     })
+}
 }
 
 OnClick = (button) => {
-    
     switch(button){
         case '=':
             this.calculateResult(button)
         break;
+        case '+':
+        case '-':
+        case'/':
+        case'*':
+            console.log('case of +-*/')
+            this.operations(button)
+            break;
         case '<-':
             let text = this.state.resultText.split('')
             text.pop()
@@ -151,7 +126,6 @@ OnClick = (button) => {
                 resultText: text.join('')
             })
             break;
-
         case 'C':
             this.text = ''
             this.setState({
@@ -177,7 +151,6 @@ return (
      {buttonsArray.map((item, index) => <TouchableOpacity onPress={() => this.OnClick(item)} style={{width: item == 0 || item == 'C'? '48%':'23.5%' , height: '18.2%' , backgroundColor: item == '*' || item == '-' || item == '+' || item == '=' || item == '/' || item == 'C' || item == '<-'? '#FFA500' : '#808080' , justifyContent: 'center', alignItems: 'center', margin: 2, borderRadius: 50}}><Text style={{color: 'white', fontSize: 60}}>{item}</Text></TouchableOpacity>)}
     </View>
 </View>
-
 );
 
 } } 
