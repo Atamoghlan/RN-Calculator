@@ -34,8 +34,10 @@ constructor(){
 operations = (button) => {
     let text = this.state.resultText
     if(text[text.length-1] === '+' || text[text.length-1] === '-' || text[text.length-1] === '/' || text[text.length-1] === '*'){
+    this.dotExist = false;
     text = this.state.resultText.split('')
     text.pop();
+    text = text.join('');
        this.setState({
            resultText: text+button
        })
@@ -54,55 +56,88 @@ operations = (button) => {
 }
 
 buttons = (button) => {
-    if(button !== '+' && button !== '-' && button !== '*' && button !== '/'){
-            if(button === '.' && this.dotExist === false && this.numExist === true
-                && this.zeroExist === false){
-                    this.setState({
-                        resultText: this.state.resultText+button
-                    })
-                    this.dotExist = true
-                    this.numExist = true
-                }
-            else if (button === '.' && this.dotExist === false && this.numExist === true && this.zeroExist === true){
-                    this.setState({
-                        resultText: this.state.resultText+button
-                    })
-                    this.dotExist = true;
-                    this.numExist = false
-                    this.zeroExist = false
-                    this.nulAndDot = true   
-                }
-            else if (button === '0' && this.zeroExist === false){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                    this.zeroExist = true;
-                    this.numExist = true;
-                    this.dotExist = false;
-            }
-            else if (button !== '.' && this.zeroExist === true && this.nulAndDot){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                this.numExist = true
-                this.dotExist = false
-            }
-            else if (button !== '.' && button !== 0){
-                this.setState({
-                    resultText: this.state.resultText+button
-                })
-                this.numExist = true
-                this.mathSign = false
-            }
-        }
-   
+let text = this.state.resultText
+switch(text[text.length-2]){
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+        if (text[text.length-1] == 0){
+        text = this.state.resultText.split('')
+text.pop();
+text = text.join('');
+this.setState({
+    resultText: text+button
+})
+}
+}
+if (text[0] == 0){
+    text = this.state.resultText.split('')
+    text.shift();
+    text = text.join('');
+    this.setState({
+        resultText: text+button
+    })
+    
+}
+else if(button == '.' && !this.dotExist){
+    this.setState({
+        resultText: text+button
+    })
+    this.dotExist = true;
+}
+else if(button != '.'){
+    this.setState({
+        resultText: this.state.resultText+button
+    })
+    this.dotExist = true
+}
 
 
+            // if(button === '.' && this.dotExist === false && this.numExist === true
+            //     && this.zeroExist === false){
+            //         this.setState({
+            //             resultText: this.state.resultText+button
+            //         })
+            //         this.dotExist = true
+            //         this.numExist = true
+            //     }
+            // else if (button === '.' && this.dotExist === false && this.numExist === true && this.zeroExist === true){
+            //         this.setState({
+            //             resultText: this.state.resultText+button
+            //         })
+            //         this.dotExist = true;
+            //         this.numExist = false
+            //         this.zeroExist = false
+            //         this.nulAndDot = true   
+            //     }
+            // else if (button === '0' && this.zeroExist === false){
+            //     this.setState({
+            //         resultText: this.state.resultText+button
+            //     })
+            //         this.zeroExist = true;
+            //         this.numExist = true;
+            //         this.dotExist = false;
+            // }
+            // else if (button !== '.' && this.nulAndDot === true){
+            //     this.setState({
+            //         resultText: this.state.resultText+button
+            //     })
+            //     this.numExist = true
+            //     this.dotExist = false
+            // }
+            // else if (button !== '.' && button !== 0){
+            //     this.setState({
+            //         resultText: this.state.resultText+button
+            //     })
+            //     this.numExist = true
+            //     this.mathSign = false
+            // }
 }
 calculateResult = (button) =>{
     if(this.state.resultText !== ''){
         this.setState({
-            resultText: eval(this.state.resultText)
+            resultText: Number(eval(this.state.resultText).toFixed(4))
     })
 }
 }
@@ -110,6 +145,7 @@ calculateResult = (button) =>{
 OnClick = (button) => {
     switch(button){
         case '=':
+            
             this.calculateResult(button)
         break;
         case '+':
