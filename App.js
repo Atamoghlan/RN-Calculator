@@ -8,9 +8,19 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default class App extends Component {
     dotExist = false;
     equalWork = false;
-    
-    dividedByZero = false
+    isEqualExist = false;
+    dividedByZero = false;
+    isForbidden = false;
     text = ''
+
+
+    Booleans = () => {
+    this.dotExist = false;
+    this.equalWork = false;
+    this.isEqualExist = false;
+    this.dividedByZero = false;
+    this.isForbidden = false;
+    this.text = ''}
 
 
 constructor(){
@@ -38,8 +48,9 @@ operations = (button) => {
         })
         this.equalWork = false;
     }
-    else if (text !== '')
+    else if (text !== '' && !this.isForbidden)
     {
+        console.log('5')
         this.setState({
             resultText: text+button
         })
@@ -75,18 +86,40 @@ if (text[0] == 0 && button != '.' && text[1] != '+' && text[1] != '-' && text[1]
     this.equalWork = true;
 }
 else if(button === '.' && this.dotExist === false){
+    console.log('2')
+    if(this.isEqualExist){
+        let text = ''
+        this.setState({
+            resultText: text + button.toString()
+        })
+        this.isEqualExist = false
+        this.dotExist = true;
+    this.equalWork = false;
+    }
+    else{
     this.setState({
         resultText: text+button.toString()
         })
     this.dotExist = true;
-    this.equalWork = true;
+    this.equalWork = false;
+    }
 }
 else if(button != '.'){
+    if (this.isEqualExist){
+        console.log('comes in isEqualExist')
+        let text = ''
+        this.setState({
+            resultText: text + button.toString()
+        })
+        this.isEqualExist = false
+    }
+    else {
     console.log('else if')
     this.setState({
         resultText: this.state.resultText + button.toString()
     })
     this.equalWork = true;
+}
 }
 
 
@@ -131,12 +164,29 @@ else if(button != '.'){
             //     this.mathSign = false
             // }
 }
+divideOnZero = () => {
+    let text = this.state.resultText;
+    for (let i = 0; i < text.length; i ++)
+    {
+        if(text[i] == '/' && text[i+1] == '0' && text[i+2] != '.'){
+          return this.isForbidden = true;
+        }
+    }
+}
 calculateResult = (button) =>{
     if(this.state.resultText !== '' && this.equalWork){
         let text = Number(eval(this.state.resultText).toFixed(4))
         this.setState({
             resultText: text.toString()
+            
     })
+    if (this.divideOnZero()){
+        this.setState({
+            resultText: "Forbidden Action"
+        })
+        this.equalWork = false;
+        
+    }
     
 }
 }
@@ -146,18 +196,20 @@ OnClick = (button) => {
         case '=':
             this.dotExist = false;
             this.calculateResult(button)
+            this.isEqualExist = true;
         break;
         case '+':
         case '-':
         case'/':
         case'*':
             console.log('case of +-*/')
+            this.isEqualExist = false
             this.operations(button)
             this.dotExist = false;
             break;
             
         case '<-':
-            console.log(this.state.resultText)
+            if(!this.isForbidden){
             let text = this.state.resultText.split('')
             let dot = text.pop()
             console.log(text)
@@ -167,12 +219,19 @@ OnClick = (button) => {
             this.setState({
                 resultText: text.join('')
             })
+        }
+        else {
+            this.Booleans();
+            this.setState({
+                resultText: ''
+
+                })
+            }
             break;
         case 'C':
-            this.dotExist = false;
-            this.text = ''
+            this.Booleans();
             this.setState({
-                resultText: this.text
+                resultText: ''
             })
             break;
         default:
