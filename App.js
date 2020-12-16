@@ -6,20 +6,9 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
 export default class App extends Component {
-    firstNUm = 0.0;
-    secondNum = 0.0;
-    mathSign = false;
-    str = '';
-    operation = 0;
-    zeroExist = false;
-    dotExist = true;
-    plusExist = false;
-    minusExist = false;
-    divisionExist = false;
-    multiplyExist = false
-    numExist = false;
-    nulAndDot = false
-    equalWork = false
+    dotExist = false;
+    equalWork = false;
+    
     dividedByZero = false
     text = ''
 
@@ -41,17 +30,20 @@ operations = (button) => {
        this.setState({
            resultText: text+button
        })
+       this.equalWork = false;
     }
     else if (text === '' && button === '-'){
         this.setState({
             resultText: text+button
         })
+        this.equalWork = false;
     }
     else if (text !== '')
     {
         this.setState({
             resultText: text+button
         })
+        this.equalWork = false;
     }
 }
 
@@ -69,29 +61,34 @@ text = text.join('');
 this.setState({
     resultText: text+button
 })
+this.equalWork = true;
 }
 }
-if (text[0] == 0){
+if (text[0] == 0 && button != '.' && text[1] != '+' && text[1] != '-' && text[1] != '/' && text[1] != '*'){
+    console.log('if')
     text = this.state.resultText.split('')
     text.shift();
     text = text.join('');
     this.setState({
-        resultText: text+button
+        resultText: text+button.toString()
     })
-    
+    this.equalWork = true;
 }
-else if(button == '.' && !this.dotExist){
+else if(button === '.' && this.dotExist === false){
     this.setState({
-        resultText: text+button
-    })
+        resultText: text+button.toString()
+        })
     this.dotExist = true;
+    this.equalWork = true;
 }
 else if(button != '.'){
+    console.log('else if')
     this.setState({
-        resultText: this.state.resultText+button
+        resultText: this.state.resultText + button.toString()
     })
-    this.dotExist = true
+    this.equalWork = true;
 }
+
 
 
             // if(button === '.' && this.dotExist === false && this.numExist === true
@@ -135,17 +132,19 @@ else if(button != '.'){
             // }
 }
 calculateResult = (button) =>{
-    if(this.state.resultText !== ''){
+    if(this.state.resultText !== '' && this.equalWork){
+        let text = Number(eval(this.state.resultText).toFixed(4))
         this.setState({
-            resultText: Number(eval(this.state.resultText).toFixed(4))
+            resultText: text.toString()
     })
+    
 }
 }
 
 OnClick = (button) => {
     switch(button){
         case '=':
-            
+            this.dotExist = false;
             this.calculateResult(button)
         break;
         case '+':
@@ -154,15 +153,23 @@ OnClick = (button) => {
         case'*':
             console.log('case of +-*/')
             this.operations(button)
+            this.dotExist = false;
             break;
+            
         case '<-':
+            console.log(this.state.resultText)
             let text = this.state.resultText.split('')
-            text.pop()
+            let dot = text.pop()
+            console.log(text)
+            if(dot==='.'){
+                this.dotExist = false
+            }
             this.setState({
                 resultText: text.join('')
             })
             break;
         case 'C':
+            this.dotExist = false;
             this.text = ''
             this.setState({
                 resultText: this.text
