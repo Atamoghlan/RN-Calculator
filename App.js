@@ -21,15 +21,13 @@ export default class App extends Component {
     this.dividedByZero = false;
     this.isForbidden = false;
     this.text = ''}
-
-
+    
 constructor(){
     super()
     this.state = {
         resultText: ""
     }
 }
-
 operations = (button) => {
     let text = this.state.resultText
     if(text[text.length-1] === '+' || text[text.length-1] === '-' || text[text.length-1] === '/' || text[text.length-1] === '*'){
@@ -57,7 +55,6 @@ operations = (button) => {
         this.equalWork = false;
     }
 }
-
 buttons = (button) => {
 let text = this.state.resultText
 switch(text[text.length-2]){
@@ -121,48 +118,6 @@ else if(button != '.'){
     this.equalWork = true;
 }
 }
-
-
-
-            // if(button === '.' && this.dotExist === false && this.numExist === true
-            //     && this.zeroExist === false){
-            //         this.setState({
-            //             resultText: this.state.resultText+button
-            //         })
-            //         this.dotExist = true
-            //         this.numExist = true
-            //     }
-            // else if (button === '.' && this.dotExist === false && this.numExist === true && this.zeroExist === true){
-            //         this.setState({
-            //             resultText: this.state.resultText+button
-            //         })
-            //         this.dotExist = true;
-            //         this.numExist = false
-            //         this.zeroExist = false
-            //         this.nulAndDot = true   
-            //     }
-            // else if (button === '0' && this.zeroExist === false){
-            //     this.setState({
-            //         resultText: this.state.resultText+button
-            //     })
-            //         this.zeroExist = true;
-            //         this.numExist = true;
-            //         this.dotExist = false;
-            // }
-            // else if (button !== '.' && this.nulAndDot === true){
-            //     this.setState({
-            //         resultText: this.state.resultText+button
-            //     })
-            //     this.numExist = true
-            //     this.dotExist = false
-            // }
-            // else if (button !== '.' && button !== 0){
-            //     this.setState({
-            //         resultText: this.state.resultText+button
-            //     })
-            //     this.numExist = true
-            //     this.mathSign = false
-            // }
 }
 divideOnZero = () => {
     let text = this.state.resultText;
@@ -178,19 +133,15 @@ calculateResult = (button) =>{
         let text = Number(eval(this.state.resultText).toFixed(4))
         this.setState({
             resultText: text.toString()
-            
     })
     if (this.divideOnZero()){
         this.setState({
             resultText: "Forbidden Action"
         })
         this.equalWork = false;
-        
     }
-    
 }
 }
-
 OnClick = (button) => {
     switch(button){
         case '=':
@@ -207,7 +158,6 @@ OnClick = (button) => {
             this.operations(button)
             this.dotExist = false;
             break;
-            
         case '<-':
             if(!this.isForbidden){
             let text = this.state.resultText.split('')
@@ -224,7 +174,6 @@ OnClick = (button) => {
             this.Booleans();
             this.setState({
                 resultText: ''
-
                 })
             }
             break;
@@ -238,10 +187,7 @@ OnClick = (button) => {
             this.buttons(button)
             break;
         }
-    /*this.setState({
-        resultText: this.state.resultText+button})*/
 }
-
 render() {
 const buttonsArray = ['C','<-','/',7,8,9,'*',4,5,6,'-',1,2,3,'+',0,'.','='];
 return (
@@ -250,14 +196,12 @@ return (
         <Text style={styles.resultText}>{this.state.resultText}</Text>
     </View>
     <View style={{flexDirection: 'row',margin: 5, flexWrap: 'wrap', width: '100%'}}>
-     {buttonsArray.map((item, index) => <TouchableOpacity onPress={() => this.OnClick(item)} style={{width: item == 0 || item == 'C'? '48%':'23.5%' , height: '18.2%' , backgroundColor: item == '*' || item == '-' || item == '+' || item == '=' || item == '/' || item == 'C' || item == '<-'? '#FFA500' : '#808080' , justifyContent: 'center', alignItems: 'center', margin: 2, borderRadius: 50}}><Text style={{color: 'white', fontSize: 60}}>{item}</Text></TouchableOpacity>)}
+     {buttonsArray.map((item, index) => <TouchableOpacity key={index} onPress={() => this.OnClick(item)} style={{width: item == 0 || item == 'C'? '48%':'23.5%' , height: '18.2%' , backgroundColor: item == '*' || item == '-' || item == '+' || item == '=' || item == '/' || item == 'C' || item == '<-'? '#FFA500' : '#808080' , justifyContent: 'center', alignItems: 'center', margin: 2, borderRadius: 50}}><Text style={{color: 'white', fontSize: 60}}>{item}</Text></TouchableOpacity>)}
     </View>
 </View>
 );
-
 } } 
 const styles = StyleSheet.create({
-
     Container: {
         flex: 1,
         backgroundColor: 'black'
