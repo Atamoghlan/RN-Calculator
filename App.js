@@ -109,6 +109,7 @@ else if(button != '.'){
             resultText: text + button.toString()
         })
         this.isEqualExist = false
+        this.isForbidden=false
     }
     else {
     console.log('else if')
@@ -126,6 +127,9 @@ divideOnZero = () => {
         if(text[i] == '/' && text[i+1] == '0' && text[i+2] != '.'){
           return this.isForbidden = true;
         }
+        else if(text[i] == '/' && text[i+1] == '.' && text[i+2] == '0'){
+            return this.isForbidden = true;
+        }
     }
 }
 calculateResult = (button) =>{
@@ -139,6 +143,7 @@ calculateResult = (button) =>{
             resultText: "Forbidden Action"
         })
         this.equalWork = false;
+
     }
 }
 }
