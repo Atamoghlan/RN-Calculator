@@ -48,7 +48,7 @@ operations = (button) => {
     }
     else if (text !== '' && !this.isForbidden)
     {
-        console.log('5')
+        //console.log('5')
         this.setState({
             resultText: text+button
         })
@@ -73,7 +73,7 @@ this.equalWork = true;
 }
 }
 if (text[0] == 0 && button != '.' && text[1] != '+' && text[1] != '-' && text[1] != '/' && text[1] != '*'){
-    console.log('if')
+    //console.log('if')
     text = this.state.resultText.split('')
     text.shift();
     text = text.join('');
@@ -83,7 +83,7 @@ if (text[0] == 0 && button != '.' && text[1] != '+' && text[1] != '-' && text[1]
     this.equalWork = true;
 }
 else if(button === '.' && this.dotExist === false){
-    console.log('2')
+    //console.log('2')
     if(this.isEqualExist){
         let text = ''
         this.setState({
@@ -103,7 +103,7 @@ else if(button === '.' && this.dotExist === false){
 }
 else if(button != '.'){
     if (this.isEqualExist){
-        console.log('comes in isEqualExist')
+        //console.log('comes in isEqualExist')
         let text = ''
         this.setState({
             resultText: text + button.toString()
@@ -112,7 +112,7 @@ else if(button != '.'){
         this.isForbidden=false
     }
     else {
-    console.log('else if')
+    //console.log('else if')
     this.setState({
         resultText: this.state.resultText + button.toString()
     })
@@ -138,27 +138,29 @@ calculateResult = (button) =>{
         this.setState({
             resultText: text.toString()
     })
+    this.dotExist = false;
+    this.isEqualExist = true;
+}
     if (this.divideOnZero()){
         this.setState({
             resultText: "Forbidden Action"
         })
         this.equalWork = false;
-
+        this.isEqualExist = true;
+        this.dotExist = false;
     }
-}
+
 }
 OnClick = (button) => {
     switch(button){
         case '=':
-            this.dotExist = false;
             this.calculateResult(button)
-            this.isEqualExist = true;
         break;
         case '+':
         case '-':
         case'/':
         case'*':
-            console.log('case of +-*/')
+            //console.log('case of +-*/')
             this.isEqualExist = false
             this.operations(button)
             this.dotExist = false;
